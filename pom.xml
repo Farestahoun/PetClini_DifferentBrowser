@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>NewProject</groupId>
+  <artifactId>Test</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>Test</name>
+  <url>http://www.example.com</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+ <!-- The first built in for runing project from cmd. It compile project to cmd-->
+  <!--The two build ins shoudl be inside  </properties> and  <dependencies>-->
+   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.9.0</version>
+          <configuration>
+            <source>15</source>
+            <target>15</target>
+          </configuration>
+        </plugin>
+        
+        <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M5</version>
+        <configuration>
+          <suiteXmlFiles>
+            <suiteXmlFile>${testNgSuite}</suiteXmlFile>
+          </suiteXmlFiles>
+        </configuration>
+      </plugin>		
+        
+        
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <dependencies>
+    <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+<dependency>
+    <groupId>org.seleniumhq.selenium</groupId>
+    <artifactId>selenium-java</artifactId>
+    <version>4.1.1</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.testng/testng -->
+<dependency>
+    <groupId>org.testng</groupId>
+    <artifactId>testng</artifactId>
+    <version>7.5</version>
+    <scope>test</scope>
+</dependency>
+<!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
+<dependency>
+    <groupId>io.github.bonigarcia</groupId>
+    <artifactId>webdrivermanager</artifactId>
+    <version>5.0.3</version>
+</dependency>
+
+  </dependencies>
+  
+<!-- This profile to parametrize testNG.xml. it means to run many testNg from cmd at same time for example testng.xml on stage and regregession suite from live -->
+<!-- we can run more than one file. Each file shoudl have profile inside profiles-->
+<!--This one profile for running regressionSuite.xml -->
+<!--We put all profiles after last </dependencies> in pom and before last </project> -->
+
+   <profiles>
+    <profile>
+      <id>regression</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+        <property>
+        <name>environment</name>
+        <value>regression</value>
+        </property>
+      </activation>
+      <properties>
+      <testNgSuite>regressionSuite.xml</testNgSuite>   
+      </properties>
+    </profile>
+ <!-- another profile for running testng.xml file. The id and value should be unique-->  
+    <profile>
+      <id>full</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+        <property>
+        <name>environment</name>
+        <value>full</value>
+        </property>
+      </activation>
+      <properties>
+      <testNgSuite>testng.xml</testNgSuite>   
+      </properties>
+    </profile>
+    
+   </profiles>
+   
+</project>

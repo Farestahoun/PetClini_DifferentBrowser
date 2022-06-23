@@ -1,0 +1,5 @@
+pages\PageBase.class
+pages\AddOwners.class
+pages\OwnerInformationPage.class
+pages\FindOwnersPage.class
+pages\HomePage.class
